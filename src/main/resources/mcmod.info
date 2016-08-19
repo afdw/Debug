@@ -1,0 +1,15 @@
+[
+{
+  "modid": "anton",
+  "name": "Debug Mod",
+  "description": "Debug placeholder mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Anton"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
