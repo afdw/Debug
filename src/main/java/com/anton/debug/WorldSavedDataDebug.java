@@ -4,22 +4,23 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.BitSet;
 
-public class DebugWorldSavedData extends WorldSavedData {
+public class WorldSavedDataDebug extends WorldSavedData {
     private static final String DATA_NAME = ModDebug.MODID + "_main";
 
     public BitSet enabledDaylightPhases = new BitSet(4);
     public boolean enabledRain = true;
     public boolean enabledCreeperExplosions = true;
 
-    public DebugWorldSavedData() {
+    public WorldSavedDataDebug() {
         this(DATA_NAME);
         enabledDaylightPhases.set(0, 4, true);
     }
 
-    public DebugWorldSavedData(String name) {
+    public WorldSavedDataDebug(String name) {
         super(name);
     }
 
@@ -44,12 +45,16 @@ public class DebugWorldSavedData extends WorldSavedData {
         return nbt;
     }
 
-    public static DebugWorldSavedData get(World world) {
+    public void sendToClients() {
+        ModDebug.NETWORK_WRAPPER.sendToAll(new MessageDebugData(FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld()));
+    }
+
+    public static WorldSavedDataDebug get(World world) {
         MapStorage storage = world.getMapStorage();
-        DebugWorldSavedData instance = (DebugWorldSavedData) storage.getOrLoadData(DebugWorldSavedData.class, DATA_NAME);
+        WorldSavedDataDebug instance = (WorldSavedDataDebug) storage.getOrLoadData(WorldSavedDataDebug.class, DATA_NAME);
 
         if(instance == null) {
-            instance = new DebugWorldSavedData();
+            instance = new WorldSavedDataDebug();
             storage.setData(DATA_NAME, instance);
         }
         return instance;

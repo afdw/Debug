@@ -64,7 +64,7 @@ public class CommandDebug extends CommandBase {
                                     sender.addChatMessage(new TextComponentString(
                                             Strings.join(Stream.of(EnumDaylightPhase.values())
                                                     .filter(enumDaylightPhase ->
-                                                            DebugWorldSavedData.get(sender.getEntityWorld()).enabledDaylightPhases.get(enumDaylightPhase.ordinal())
+                                                            WorldSavedDataDebug.get(sender.getEntityWorld()).enabledDaylightPhases.get(enumDaylightPhase.ordinal())
                                                     )
                                                     .map(Enum::name)
                                                     .map(String::toLowerCase)
@@ -78,7 +78,7 @@ public class CommandDebug extends CommandBase {
                             case "disable":
                                 if(args.length == 3) {
                                     EnumDaylightPhase phase;
-                                    switch(args[2]) {
+                                    switch(args[2].toLowerCase()) {
                                         case "day":
                                             phase = EnumDaylightPhase.DAY;
                                             break;
@@ -98,14 +98,15 @@ public class CommandDebug extends CommandBase {
                                     if(args[1].equals("enable")) {
                                         value = true;
                                     } else if(args[1].equals("disable")) {
-                                        if(DebugWorldSavedData.get(sender.getEntityWorld()).enabledDaylightPhases.stream().toArray().length > 1) {
+                                        if(WorldSavedDataDebug.get(sender.getEntityWorld()).enabledDaylightPhases.stream().toArray().length > 1) {
                                             value = false;
                                         } else {
                                             throw new WrongUsageException("You can not disable last daylight phase");
                                         }
                                     }
-                                    DebugWorldSavedData.get(sender.getEntityWorld()).enabledDaylightPhases.set(phase.ordinal(), value);
-                                    DebugWorldSavedData.get(sender.getEntityWorld()).setDirty(true);
+                                    WorldSavedDataDebug.get(sender.getEntityWorld()).enabledDaylightPhases.set(phase.ordinal(), value);
+                                    WorldSavedDataDebug.get(sender.getEntityWorld()).setDirty(true);
+                                    WorldSavedDataDebug.get(sender.getEntityWorld()).sendToClients();
                                 } else if(args.length < 3) {
                                     throw new WrongUsageException("No argument");
                                 } else {
@@ -126,15 +127,17 @@ public class CommandDebug extends CommandBase {
                         }
                         switch(args[1]) {
                             case "get":
-                                sender.addChatMessage(new TextComponentString(DebugWorldSavedData.get(sender.getEntityWorld()).enabledRain ? "enabled" : "disabled"));
+                                sender.addChatMessage(new TextComponentString(WorldSavedDataDebug.get(sender.getEntityWorld()).enabledRain ? "enabled" : "disabled"));
                                 break;
                             case "enable":
-                                DebugWorldSavedData.get(sender.getEntityWorld()).enabledRain = true;
-                                DebugWorldSavedData.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).enabledRain = true;
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).sendToClients();
                                 break;
                             case "disable":
-                                DebugWorldSavedData.get(sender.getEntityWorld()).enabledRain = false;
-                                DebugWorldSavedData.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).enabledRain = false;
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).sendToClients();
                                 break;
                             default:
                                 throw new WrongUsageException("Wrong action");
@@ -150,15 +153,17 @@ public class CommandDebug extends CommandBase {
                         }
                         switch(args[1]) {
                             case "get":
-                                sender.addChatMessage(new TextComponentString(DebugWorldSavedData.get(sender.getEntityWorld()).enabledCreeperExplosions ? "enabled" : "disabled"));
+                                sender.addChatMessage(new TextComponentString(WorldSavedDataDebug.get(sender.getEntityWorld()).enabledCreeperExplosions ? "enabled" : "disabled"));
                                 break;
                             case "enable":
-                                DebugWorldSavedData.get(sender.getEntityWorld()).enabledCreeperExplosions = true;
-                                DebugWorldSavedData.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).enabledCreeperExplosions = true;
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).sendToClients();
                                 break;
                             case "disable":
-                                DebugWorldSavedData.get(sender.getEntityWorld()).enabledCreeperExplosions = false;
-                                DebugWorldSavedData.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).enabledCreeperExplosions = false;
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).setDirty(true);
+                                WorldSavedDataDebug.get(sender.getEntityWorld()).sendToClients();
                                 break;
                             default:
                                 throw new WrongUsageException("Wrong action");
