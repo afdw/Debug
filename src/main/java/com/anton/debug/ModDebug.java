@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ModDebug {
     public static final String MODID = "debug";
     public static final String NAME = "Debug";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "2.0";
 
     public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel("debug");
 
